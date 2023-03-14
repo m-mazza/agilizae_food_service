@@ -3,12 +3,11 @@
 
     <?php 
     $itemAdicional = "SELECT * FROM complemento_produto";
-    $resultitemAdicional = $conexao->query($itemAdicional);
-    $linhasitem = $resultitemAdicional->num_rows;  ?>
-   
+    $resultitemAdicional = $conexao->query($itemAdicional); ?>
     <script> 
         var item_adicional = JSON.parse('<?php echo json_encode($resultitemAdicional->fetch_all(MYSQLI_ASSOC)); ?>');
     </script>
+   
 
     <div class="container-fluid">
         <div class="row">
@@ -104,32 +103,23 @@
                                 </div>
                             </form>
                         </div>
-                        <?php
-                            $num = 0;
-                            if($num <= 0) {  
-                        ?>
+
                         <div class="col-12 col-sm-6">
-                            <div class="mx-1 my-3">
-                                <ul class="list-group">
-                                    <li class="list-group-item d-flex align-items-center justify-content-center">
-                                        <strong class="h6 mb-0">você não tem <strong>produtos</strong> cadastradas aindas.</strong>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <?php 
-                            } else { 
-                        ?>   
-                        <!-- LADO DIREITO -->
-                        <div class="col-12 col-sm-6">
+                            <?php                    
+                                $mostraProduto = "SELECT nm_produto, vl_produto FROM produto";
+                                $resultmostraProduto = $conexao->query($mostraProduto);
+                                $linhasmostraProd = $resultmostraProduto->num_rows; 
+                                if($linhasmostraProd > 0) {
+                            ?>
                             <div class="mx-3">
                                 <div class="mx-1">
                                     <h5 class="mb-2">Últimos Produtos Cadastrados</h5>
                                 </div>
+                                <?php while($rowmstPrd = $resultmostraProduto->fetch_assoc()) { ?>
                                 <div class="my-3">
                                     <ul class="list-group">
                                         <li class="list-group-item bg-light d-flex align-items-center justify-content-between">
-                                            <strong class="h6 mb-0">Nome do Produto | R$ 00.00</strong> 
+                                            <strong class="h6 mb-0"><?php echo$rowmstPrd["nm_produto"]?> | R$ <?php echo$rowmstPrd["vl_produto"]?></strong> 
                                             <div class="btn-area">
                                                 <a href="" class="btn btn-danger" title="deletar"><i class="fa-solid fa-trash"></i></a>
                                                 <a href="produto" class="btn btn-primary" title="editar"><i class="fa-solid fa-pencil"></i></a>
@@ -138,11 +128,18 @@
                                         </li>
                                     </ul>
                                 </div>
+                                <?php } ?>
                             </div>
-                        </div>
-                        <?php 
-                            };
-                        ?>
+                            <?php } else { ?>
+                            <div class="mx-3">
+                                <ul class="list-group">
+                                    <li class="list-group-item d-flex align-items-center justify-content-center">
+                                        <strong class="h6 mb-0">você não tem <strong>produtos</strong> cadastradas aindas.</strong>
+                                    </li>
+                                </ul>
+                            </div>
+                            <?php } ?>
+                        </div>           
                     </div>
                 </div>
     
@@ -153,7 +150,7 @@
 <?php include('inc/footer.php')?>
 
 <?php
-    var_dump($_POST);
+    // var_dump($_POST);
 
     if(@$_POST['prodcad'] == "prodcadastrado") {
         $nmproduto      = mysqli_real_escape_string($conexao, trim($_POST["nmproduto"]));
@@ -166,6 +163,13 @@
         VALUES(".$cdcategoria .",'".$nmproduto."',".$vlproduto.",'".$dsproduto."')";
         GetBanco()->query($sqlCadProd);
 
+        $id = mysqli_insert_id(GetBanco());
+        $sqlRelacao = "INSERT INTO prod_item (cd_produto,cd_itemad) VALUES ";
+        foreach($_POST["itemadicional"] as $value){
+            $sqlRelacao.="($id, $value),";
+        }
+        $sqlRelacao = rtrim($sqlRelacao,",");
+        GetBanco()->query($sqlRelacao);
         ?>
         <script>
             $(document).ready(function() {

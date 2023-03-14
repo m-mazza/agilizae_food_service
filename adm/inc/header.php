@@ -2,9 +2,9 @@
 <html lang="pt-br">
     <?php
         include('requires/functions.php'); 
-        if(end($file___) != 'login.php'){
-            include('requires/verifica.php'); 
-        }
+        // if(end($file___) != 'login.php'){
+        //     include('requires/verifica.php'); 
+        // }
         include('requires/conexao.php');
     ?>
     <head>

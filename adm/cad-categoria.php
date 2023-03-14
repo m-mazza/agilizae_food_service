@@ -42,7 +42,7 @@
                             <div class="my-2">
                                 <ul class="list-group">
                                     <li class="list-group-item bg-light d-flex align-items-center justify-content-between">
-                                        <strong class="h6 mb-0"><?php echo$rowCtPrd["nm_categoria"]?>     </strong> 
+                                        <strong class="h6 mb-0"><?php echo$rowCtPrd["nm_categoria"]?></strong> 
                                         <div class="btn-area">
                                             <a href="" class="btn btn-danger" title="deletar"><i class="fa-solid fa-trash"></i></a>
                                             <a href="" class="btn btn-primary" title="editar"><i class="fa-solid fa-pencil"></i></a>
