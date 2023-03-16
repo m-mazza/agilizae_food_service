@@ -2,8 +2,9 @@
     <?php include('inc/navbar.php')?>
 
     <?php 
-    $itemAdicional = "SELECT * FROM complemento_produto";
-    $resultitemAdicional = $conexao->query($itemAdicional); ?>
+    $itemAdicional = "SELECT * FROM complemento_produto WHERE cd_restaurante =  $cdRest";
+    $resultitemAdicional = $conexao->query($itemAdicional);
+    ?>
     <script> 
         var item_adicional = JSON.parse('<?php echo json_encode($resultitemAdicional->fetch_all(MYSQLI_ASSOC)); ?>');
     </script>
@@ -45,7 +46,7 @@
                                                         <label>Escolha a categoria</label>
                                                         <select class="form-control" name="cdcategoria">
                                                             <?php 
-                                                            $catProd = "SELECT * FROM categoria";
+                                                            $catProd = "SELECT * FROM categoria WHERE cd_restaurante = $cdRest";
                                                             $resultCatProd = $conexao->query($catProd);
                                                             $linhasCatProd = $resultCatProd->num_rows; 
                                                             if($linhasCatProd > 0) {
@@ -106,7 +107,7 @@
 
                         <div class="col-12 col-sm-6">
                             <?php                    
-                                $mostraProduto = "SELECT nm_produto, vl_produto FROM produto";
+                                $mostraProduto = "SELECT nm_produto, vl_produto FROM produto  WHERE cd_restaurante = $cdRest";
                                 $resultmostraProduto = $conexao->query($mostraProduto);
                                 $linhasmostraProd = $resultmostraProduto->num_rows; 
                                 if($linhasmostraProd > 0) {
@@ -159,12 +160,12 @@
         $cdcategoria    = mysqli_real_escape_string($conexao, trim($_POST["cdcategoria"]));        
       
         // insere dados na tabela produto
-        $sqlCadProd = "INSERT INTO produto (cd_categoria,nm_produto,vl_produto,ds_produto)
-        VALUES(".$cdcategoria .",'".$nmproduto."',".$vlproduto.",'".$dsproduto."')";
+        $sqlCadProd = "INSERT INTO produto (cd_categoria,nm_produto,vl_produto,ds_produto,cd_restaurante)
+        VALUES(".$cdcategoria .",'".$nmproduto."',".$vlproduto.",'".$dsproduto."',$cdRest)";
         GetBanco()->query($sqlCadProd);
 
         $id = mysqli_insert_id(GetBanco());
-        $sqlRelacao = "INSERT INTO prod_item (cd_produto,cd_itemad) VALUES ";
+        $sqlRelacao = "INSERT INTO prod_item (cd_produto, cd_itemad) VALUES ";
         foreach($_POST["itemadicional"] as $value){
             $sqlRelacao.="($id, $value),";
         }

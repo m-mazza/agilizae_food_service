@@ -54,7 +54,7 @@
                             </div>    
                             <?php
                                 // dados do Gestor
-                                $sqlGestor      = "SELECT * FROM gestor";
+                                $sqlGestor      = "SELECT * FROM gestor WHERE cd_restaurante = $cdRest";
                                 $dadosGestor    = $conexao->query($sqlGestor);
                                 $rowGestor      = $dadosGestor->fetch_assoc();
                             ?>

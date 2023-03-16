@@ -1,5 +1,5 @@
-<?php include('inc/header.php')?>
-    <?php include('inc/navbar.php')?>
+<?php include('inc/header.php');?>
+    <?php include('inc/navbar.php');?>
 
     <div class="container-fluid">
         <div class="row">
@@ -29,7 +29,7 @@
                             <hr>                   
                         </div>
                         <?php 
-                        $catProd = "SELECT nm_categoria FROM categoria";
+                        $catProd = "SELECT nm_categoria FROM categoria WHERE cd_restaurante = $cdRest";
                         $resultCatProd = $conexao->query($catProd);
                         $linhasCatProd = $resultCatProd->num_rows; 
                         if($linhasCatProd > 0) {?>                          
@@ -97,10 +97,10 @@
 
         // aqui o código do restaurante precisa ser igual ao código do gestor. ==> pesquisar
         /* SELECT cd_restaurante FROM restaurante WHERE código do gestor é igual ao código de gestor na tabela gestor */
-        $sqlCdRestaurante = "SELECT cd_restaurante FROM restaurante ORDER BY cd_restaurante DESC LIMIT 1";
-        $cdRest     = $conexao->query($sqlCdRestaurante);
-        $rowCdRest  = $cdRest->fetch_assoc();
-        $cdRest     = $rowCdRest['cd_restaurante'];
+        // $sqlCdRestaurante = "SELECT cd_restaurante FROM restaurante ORDER BY cd_restaurante DESC LIMIT 1";
+        // $cdRest     = $conexao->query($sqlCdRestaurante);
+        // $rowCdRest  = $cdRest->fetch_assoc();
+        // $cdRest     = $rowCdRest['cd_restaurante'];
 
   
         // insere dados na tabela categoria

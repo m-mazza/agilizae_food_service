@@ -1,5 +1,5 @@
-<?php include('inc/header.php')?>
-    <?php include('inc/navbar.php')?>
+<?php include('inc/header.php');?>
+    <?php include('inc/navbar.php');?>
 
     <div class="container-fluid">
         <div class="row">
@@ -40,7 +40,7 @@
                             <hr>
                         </div>
                         <?php 
-                        $slectItemAd = "SELECT * FROM complemento_produto";
+                        $slectItemAd = "SELECT * FROM complemento_produto WHERE cd_restaurante = $cdRest";
                         $resultItemAd = $conexao->query($slectItemAd);
                         $linhasItemAd = $resultItemAd->num_rows; 
                         if($linhasItemAd > 0) {?>  
@@ -113,10 +113,9 @@
     if(array_key_exists('cadAdicional', $_POST) && $_POST['cadAdicional'] == "s") {
         $nomeItemAd     = mysqli_real_escape_string($conexao, trim($_POST["nmitemad"]));
         $vlItemAd       = mysqli_real_escape_string($conexao, trim($_POST["vlitemad"]));
-          
-        // insere dados na tabela complemento produto
-        $sqlItemAd = "INSERT INTO complemento_produto (nm_itemad, vl_itemad) 
-        VALUES ('".$nomeItemAd ."',".floatval($vlItemAd).")";  
+        
+        $sqlItemAd = "INSERT INTO complemento_produto (nm_itemad, cd_restaurante, vl_itemad) 
+        VALUES ('".$nomeItemAd ."',".$cdRest.",".floatval($vlItemAd).")";  
         GetBanco()->query($sqlItemAd);
         //TO-DO: corrigir o fload do vl_itemad
         

@@ -14,8 +14,7 @@
             @session_start ();
             $_SESSION['sslogado'] = "S";
             $_SESSION['senha'] = "S";
-            $_SESSION['gestor'] = $resultCatProd->fetch_all()[0];
-            
+            $_SESSION['gestor'] = $resultado->fetch_all(MYSQLI_ASSOC)[0];
             echo "<script>self.location = './'</script>";  
 
         } else {

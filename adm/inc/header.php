@@ -2,9 +2,9 @@
 <html lang="pt-br">
     <?php
         include('requires/functions.php'); 
-        // if(end($file___) != 'login.php'){
-        //     include('requires/verifica.php'); 
-        // }
+        if(end($file___) != 'login.php'){
+            include('requires/verifica.php'); 
+        }
         include('requires/conexao.php');
     ?>
     <head>
@@ -17,8 +17,12 @@
     <body>
         
     <?php
-        // dados da loja
-        $sqlLoja = "SELECT * FROM restaurante";
-        $dadosLoja = $conexao->query($sqlLoja);
-        $rowLoja = $dadosLoja->fetch_assoc();
+        $cdRest = isset($_SESSION) && array_key_exists( 'gestor',$_SESSION)? $_SESSION['gestor']['cd_restaurante'] : null;
+
+        if($cdRest != null) {
+            // dados da loja
+            $sqlLoja = "SELECT * FROM restaurante WHERE cd_restaurante = $cdRest";
+            $dadosLoja = $conexao->query($sqlLoja);
+            $rowLoja = $dadosLoja->fetch_assoc();
+        }
     ?>

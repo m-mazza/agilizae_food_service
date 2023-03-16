@@ -148,10 +148,7 @@
         $cpf            = mysqli_real_escape_string($conexao, trim($_POST["cpf"]));
         $email          = mysqli_real_escape_string($conexao, trim($_POST["email"]));
         $telefone       = mysqli_real_escape_string($conexao, trim($_POST["telefone"]));
-        // insere dados na tabela gestor
-        $sqlgestor = "INSERT INTO gestor (nm_gestor, cd_cpf, ds_email, cd_telefone)
-        VALUES ('".$nome."','".$cpf."','".$email."','".$telefone."')";
-        GetBanco()->query($sqlgestor);
+
 
 
         // dados do restaurante;
@@ -165,16 +162,18 @@
         $estado         = mysqli_real_escape_string($conexao, trim($_POST["uf "]));
         $cep            = mysqli_real_escape_string($conexao, trim($_POST["cep"]));
 
-        $slqcdgestor = "SELECT cd_gestor FROM gestor ORDER BY cd_gestor DESC LIMIT 1";
-        $g = $conexao->query($slqcdgestor);
-        $rowcdgestor = $g->fetch_assoc();
-        $cdgestor = $rowcdgestor['cd_gestor'];
 
 
         // insere dados na tabela restaurante
-        $sqlrestaurante = "INSERT INTO restaurante (nm_restaurante, nm_fantasia, cd_gestor, cd_cnpj, ds_rua, ds_num, ds_bairro, nm_cidade, cd_cep) 
-        VALUES ('".$razaosocial."','".$nomefantasia."','".$cdgestor."','".$cnpj."','".$rua."','".$numero."','".$bairro."','".$cidade."','".$cep."')";  
+        $sqlrestaurante = "INSERT INTO restaurante (nm_restaurante, nm_fantasia, cd_cnpj, ds_rua, ds_num, ds_bairro, nm_cidade, cd_cep) 
+        VALUES ('".$razaosocial."','".$nomefantasia."','".$cnpj."','".$rua."','".$numero."','".$bairro."','".$cidade."','".$cep."')";  
         GetBanco()->query($sqlrestaurante);
+
+        $cdRestaurante = mysqli_insert_id(GetBanco());
+        // insere dados na tabela gestor
+        $sqlgestor = "INSERT INTO gestor (nm_gestor, cd_restaurante, cd_cpf, ds_email, cd_telefone)
+        VALUES ('".$nome."', $cdRestaurante,'".$cpf."','".$email."','".$telefone."')";
+        GetBanco()->query($sqlgestor); 
         ?>
 
         <script>
