@@ -17,7 +17,7 @@
     <body>
         
     <?php
-        $cdRest = isset($_SESSION) && array_key_exists( 'gestor',$_SESSION)? $_SESSION['gestor']['cd_restaurante'] : null;
+        $cdRest = isset($_SESSION) && array_key_exists('gestor',$_SESSION)? $_SESSION['gestor']['cd_restaurante'] : null;
 
         if($cdRest != null) {
             // dados da loja
