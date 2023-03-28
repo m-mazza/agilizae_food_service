@@ -16,7 +16,7 @@
                             <input type="email" class="form-control" data-name="E-mail" name="email" placeholder="Digite seu e-mail">
                         </div>
                         <div class="form-group mb-4">
-                            <input type="text" class="form-control cpf" data-name="CPF" name="cpf" placeholder="Digite seu CPF">
+                            <input type="password" class="form-control cpf" data-name="CPF" name="cpf" placeholder="Digite seu CPF">
                         </div>
                         <button type="submit" class="btn btn-primary w-100">ENTRAR</button>
                     </form>

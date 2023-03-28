@@ -55,6 +55,11 @@ $(document).ready(function () {
             if(campo == "") {
                 // recebe o valor do nome do inpute (data-name)
                 var nomeCampo = $(this).data('name');
+
+                if(nomeCampo == undefined) {
+                    return true;
+                }
+                
                 $('.modal-header h4').html('Campo Obrigatório');
                 $('.modal-body p').html('O campo "'+nomeCampo+'" está vazio.').css('text-transform', 'capitalize');
                 $('#modal_validation').modal('toggle');

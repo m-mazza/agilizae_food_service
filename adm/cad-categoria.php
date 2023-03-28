@@ -109,14 +109,10 @@
 
 <?php
      if(@$_POST['cadCategor'] == "s") {
-        // var_dump($_POST);
  
         $nomeCategoria = mysqli_real_escape_string($conexao, trim($_POST["categ"]));
         $exeCategoria = isset($_POST["idcategoria"]) && !empty($_POST["idcategoria"]); 
         
-        // var_dump( $exeCategoria);
-
-
         $sqlCat = $exeCategoria? 
         "UPDATE categoria SET nm_categoria = '".$nomeCategoria."' WHERE cd_categoria = ".$_POST["idcategoria"]:
         "INSERT INTO categoria (cd_restaurante, nm_categoria) VALUES ('".$cdRest."','".$nomeCategoria."')";

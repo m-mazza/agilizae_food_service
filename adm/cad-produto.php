@@ -26,7 +26,7 @@
                             <div class="mx-1">
                                 <h5 class="mb-2">Produto</h5>
                             </div>
-                            <form id="cadProd" method="POST">
+                            <form id="cadProd" method="POST" enctype="multipart/form-data">
                                 <input type="hidden" name="prodcad" value="prodcadastrado">
                                 <div class="row no-gutters">
                                     <!-- Nome | Categoria | Valor -->
@@ -96,6 +96,14 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="col-12">
+                                        <div class="m-1">
+                                            <div class="form-group mb-0">
+                                                <label>Insira a imagem</label>
+                                                <input type="file" data-name="Imagem" name="imagemprod">
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="col-4">
                                         <div class="m-1">
                                             <button type="submit" class="btn btn-primary w-100">Cadastrar Produto</button>
@@ -156,9 +164,15 @@
     if(@$_POST['prodcad'] == "prodcadastrado") {
         $nmproduto      = mysqli_real_escape_string($conexao, trim($_POST["nmproduto"]));
         $vlproduto      = mysqli_real_escape_string($conexao, trim($_POST["vlproduto"]));
-        $dsproduto    = mysqli_real_escape_string($conexao, trim($_POST["descproduto"]));  
+        $dsproduto      = mysqli_real_escape_string($conexao, trim($_POST["descproduto"]));  
         $cdcategoria    = mysqli_real_escape_string($conexao, trim($_POST["cdcategoria"]));        
-      
+        $imagem         = $_FILES["imagemprod"];
+        $extensao       = explode('.', $imagem['full_path']);
+        $extensao       = end($extensao);
+        $urlImagem      = uniqid("").".$extensao";
+        move_uploaded_file($imagem['tmp_name'], '../assets/img/produtos/'.$urlImagem);      
+        // criar campo no banco de dados pra receber  $urlImagem
+
         // insere dados na tabela produto
         $sqlCadProd = "INSERT INTO produto (cd_categoria,nm_produto,vl_produto,ds_produto,cd_restaurante)
         VALUES(".$cdcategoria .",'".$nmproduto."',".$vlproduto.",'".$dsproduto."',$cdRest)";
@@ -171,6 +185,9 @@
         }
         $sqlRelacao = rtrim($sqlRelacao,",");
         GetBanco()->query($sqlRelacao);
+
+        unset($_POST);
+
         ?>
         <script>
             $(document).ready(function() {
