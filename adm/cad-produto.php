@@ -1,9 +1,33 @@
-<?php include('inc/header.php')?>
-    <?php include('inc/navbar.php')?>
+<?php include('inc/header.php');?>
+    <?php include('inc/navbar.php');
+    
+    
+    
+    if(isset($_GET["action"]) && $_GET["action"] == "delete") {
+
+        $catProd = "DELETE FROM produto WHERE cd_restaurante = $cdRest AND cd_produto = ".$_GET["id"];
+        $resultCatProd = $conexao->query($catProd);
+        header("Location: ../adm/cad-categoria?mensagem=true");
+
+    } else if(isset($_GET["id"])){
+
+        $catProd = "SELECT * FROM produto WHERE cd_restaurante = $cdRest AND cd_produto = ".$_GET["id"];
+        $resultCatProd = $conexao->query($catProd);
+        $produto = $resultCatProd->fetch_assoc();
+
+        $CP = "SELECT CP.cd_itemad FROM complemento_produto as CP
+        INNER JOIN prod_item as PI ON CP.cd_itemad = PI.cd_itemad
+        WHERE CP.cd_restaurante = $cdRest AND PI.cd_produto = ".$_GET["id"];
+        $resCP = $conexao->query($CP);
+        $itemsAdicionados = $resCP->fetch_all();
+
+    }
+    
+    ?>
 
     <?php 
-    $itemAdicional = "SELECT * FROM complemento_produto WHERE cd_restaurante =  $cdRest";
-    $resultitemAdicional = $conexao->query($itemAdicional);
+        $itemAdicional = "SELECT * FROM complemento_produto WHERE cd_restaurante =  $cdRest";
+        $resultitemAdicional = $conexao->query($itemAdicional);
     ?>
     <script> 
         var item_adicional = JSON.parse('<?php echo json_encode($resultitemAdicional->fetch_all(MYSQLI_ASSOC)); ?>');
@@ -17,7 +41,7 @@
             </nav>
             <main id="cadArea" role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center px-4 py-4 mb-3 border-bottom">
-                    <h3 class="h2 mb-0">Cadastro - Produto</h3>
+                    <h3 class="h2 mb-0"><?php echo isset($produto)?"Editar":"Cadastrar"?> Produto</h3>
                 </div>
 
                 <div class="p-3" style="height:100vh">
@@ -36,7 +60,7 @@
                                                 <div class="m-1">
                                                     <div class="form-group mb-0">
                                                         <label>Nome do Produto</label>
-                                                        <input type="text" class="form-control" data-name="Nome do Produto" name="nmproduto">
+                                                        <input type="text" class="form-control" data-name="Nome do Produto" name="nmproduto" value="<?php echo isset($produto)?$produto["nm_produto"]:"" ?>">
                                                     </div>
                                                 </div>
                                             </div>
@@ -51,7 +75,7 @@
                                                             $linhasCatProd = $resultCatProd->num_rows; 
                                                             if($linhasCatProd > 0) {
                                                                 while($rowCtPrd = $resultCatProd->fetch_assoc()) { ?>
-                                                            <option value="<?php echo $rowCtPrd["cd_categoria"]?>" ><?php echo$rowCtPrd["nm_categoria"]?></option>
+                                                            <option <?php echo isset($produto) && $rowCtPrd["cd_categoria"] == $produto["cd_categoria"]?'selected':''?> value="<?php echo $rowCtPrd["cd_categoria"]?>" ><?php echo $rowCtPrd["nm_categoria"]?></option>
                                                             <?php 
                                                                 };
                                                             }else {?>
@@ -65,7 +89,7 @@
                                                 <div class="m-1">
                                                     <div class="form-group mb-0">
                                                         <label>Valor do Produto</label>
-                                                        <input type="text" class="form-control" data-name="Valor do Produto" name="vlproduto">
+                                                        <input type="text" class="form-control" data-name="Valor do Produto" name="vlproduto" value="<?php echo isset($produto)?$produto["vl_produto"]:" "?>">
                                                     </div>
                                                 </div>
                                             </div>
@@ -92,7 +116,7 @@
                                         <div class="m-1">
                                             <div class="form-group mb-0">
                                                 <label>Descrição do produto</label>
-                                                <textarea class="form-control" id="" rows="3" data-name="Descrição do Produto" name="descproduto"></textarea>
+                                                <textarea class="form-control" rows="3" data-name="Descrição do Produto" name="descproduto"><?php echo isset($produto)?$produto["ds_produto"]:""?></textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -106,7 +130,7 @@
                                     </div>
                                     <div class="col-4">
                                         <div class="m-1">
-                                            <button type="submit" class="btn btn-primary w-100">Cadastrar Produto</button>
+                                            <button type="submit" class="btn btn-<?php echo isset($produto)?"warning":"primary"?> w-100"><?php echo isset($produto)?"Editar":"Cadastrar"?> Produto</button>
                                         </div>
                                     </div>
                                 </div>
@@ -115,7 +139,7 @@
 
                         <div class="col-12 col-sm-6">
                             <?php                    
-                                $mostraProduto = "SELECT nm_produto, vl_produto FROM produto  WHERE cd_restaurante = $cdRest";
+                                $mostraProduto = "SELECT nm_produto, vl_produto, cd_produto FROM produto  WHERE cd_restaurante = $cdRest";
                                 $resultmostraProduto = $conexao->query($mostraProduto);
                                 $linhasmostraProd = $resultmostraProduto->num_rows; 
                                 if($linhasmostraProd > 0) {
@@ -131,8 +155,8 @@
                                             <strong class="h6 mb-0"><?php echo$rowmstPrd["nm_produto"]?> | R$ <?php echo$rowmstPrd["vl_produto"]?></strong> 
                                             <div class="btn-area">
                                                 <a href="" class="btn btn-danger" title="deletar"><i class="fa-solid fa-trash"></i></a>
-                                                <a href="produto" class="btn btn-primary" title="editar"><i class="fa-solid fa-pencil"></i></a>
-                                                <a href="produto" class="btn btn-secondary"title="visualizar"><i class="fa-solid fa-magnifying-glass"></i></a>
+                                                <a href="cad-produto?id=<?php echo$rowmstPrd["cd_produto"]?>" class="btn btn-primary" title="editar"><i class="fa-solid fa-pencil"></i></a>
+                                                <a href="cad-produto?id=<?php echo$rowmstPrd["cd_produto"]?>&action=delete" class="btn btn-secondary"title="visualizar"><i class="fa-solid fa-magnifying-glass"></i></a>
                                             </div>
                                         </li>
                                     </ul>
@@ -158,10 +182,21 @@
     
 <?php include('inc/footer.php')?>
 
+<script>
+    window.inserItensAdicionados(<?php echo json_encode($itemsAdicionados) ?>);
+</script>
+
 <?php
-    // var_dump($_POST);
+    //TO-DO: incluir campo hidden 'idproduto', incluir itens adicionais na tela de atualização, mudar as variáveis da lógica de edição e atualizar a imagem do prduto e também apagar imagem. 
 
     if(@$_POST['prodcad'] == "prodcadastrado") {
+
+        $existProd = isset($_POST["idcategoria"]) && !empty($_POST["idcategoria"]); 
+        if($existProd) {
+            atualizarProduto();
+            exit;
+        };
+
         $nmproduto      = mysqli_real_escape_string($conexao, trim($_POST["nmproduto"]));
         $vlproduto      = mysqli_real_escape_string($conexao, trim($_POST["vlproduto"]));
         $dsproduto      = mysqli_real_escape_string($conexao, trim($_POST["descproduto"]));  
@@ -187,7 +222,6 @@
         GetBanco()->query($sqlRelacao);
 
         unset($_POST);
-
         ?>
         <script>
             $(document).ready(function() {
@@ -201,5 +235,47 @@
             })
          </script>
     <?php 
-    } 
+    }; 
+    function atualizarProduto() {
+
+        $id = $_POST["idproduto"];
+        $listaExiste = "SELECT cd_itemad FROM prod_item WHERE cd_produto = ".$id;
+        $resultlistaExiste  = $conexao->query($listaExiste);
+        $lista = $resultlistaExiste ->fetch_all();
+
+        $novosItems = [];
+
+        foreach($_POST["itemadicional"] as $value){
+            if(array_search($value, $lista) === false){
+                $novosItems[] = $value;
+            }
+        }
+        
+        $sqlExcluiItens = "DELETE FROM prod_item WHERE cd_produto = ".$id." AND cd_itemad NOT IN (".implode(',',$_POST["itemadicional"]).")";
+        GetBanco()->query($sqlExcluiItens);
+
+        // $sqlCat =  "UPDATE categoria SET nm_categoria = '".$nomeCategoria."' WHERE cd_categoria = ".$_POST["idproduto"];
+   
+        $sqlRelacao = "INSERT INTO prod_item (cd_produto, cd_itemad) VALUES ";
+        foreach($novosItems as $value){
+            $sqlRelacao.="($id, $value),";
+        }
+        $sqlRelacao = rtrim($sqlRelacao,",");
+        GetBanco()->query($sqlRelacao);
+
+    }
+    if(isset($_GET["mensagem"]) && $_GET["mensagem"]=="true") {?>
+    <script>
+            $(document).ready(function() {
+                $('.modal-header h4').html('Sucesso').css('color','#28a745');
+                $('.modal-body p').html('Seu cadastro foi <strong>excluido</strong> com sucesso!').css('text-align','center');
+                $('.modal-footer button').css('display', 'none');
+                $('#modal_validation').modal('toggle');
+                setTimeout(function() {
+                    self.location = 'cad-categoria'; 
+                }, 1500); 
+            })
+    </script>
+    <?php 
+    };   
 ?>

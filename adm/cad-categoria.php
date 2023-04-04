@@ -3,7 +3,6 @@
     
 
         if(isset($_GET["action"]) && $_GET["action"] == "delete") {
-
             $catProd = "DELETE FROM categoria WHERE cd_restaurante = $cdRest AND cd_categoria = ".$_GET["id"];
             $resultCatProd = $conexao->query($catProd);
             header("Location: ../adm/cad-categoria?mensagem=true");
@@ -12,7 +11,6 @@
             $catProd = "SELECT * FROM categoria WHERE cd_restaurante = $cdRest AND cd_categoria = ".$_GET["id"];
             $resultCatProd = $conexao->query($catProd);
             $categoria = $resultCatProd->fetch_assoc();
-
         }
     
     ?>
@@ -146,4 +144,4 @@
     </script>
     <?php 
     };   
-    ?>
+?>
