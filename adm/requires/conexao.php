@@ -8,8 +8,9 @@ function GetBanco() {
        return $banco;
        if($ambiente == 'f') {
             $banco = new mysqli('localhost', 'food', 'Agilizae@2022', 'db_agilizae');
+        
         } else {
-            // $banco = new mysqli('mysql.projetospitico.kinghost.net', 'projetospitico18', 'crmpitico11', 'projetospitico18');
+            $banco = new mysqli('localhost', 'root', '', 'db_agilizae');
         }
 
     if (mysqli_connect_errno()) {
