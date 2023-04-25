@@ -1,5 +1,7 @@
 
 <?php
+
+    error_reporting(E_WARNING);
     include('requires/conexao.php');    
         if(@$_POST) { 
         $email = mysqli_real_escape_string($conexao, @$_POST['email']);

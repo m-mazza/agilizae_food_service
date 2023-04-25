@@ -1,13 +1,11 @@
 <?php include('inc/header.php');?>
     <?php include('inc/navbar.php');
     
-    
-    
     if(isset($_GET["action"]) && $_GET["action"] == "delete") {
 
         $catProd = "DELETE FROM produto WHERE cd_restaurante = $cdRest AND cd_produto = ".$_GET["id"];
         $resultCatProd = $conexao->query($catProd);
-        header("Location: ../adm/cad-categoria?mensagem=true");
+        header("Location: ../adm/cad-produto?mensagem=true");
 
     } else if(isset($_GET["id"])){
 
@@ -51,7 +49,9 @@
                                 <h5 class="mb-2">Produto</h5>
                             </div>
                             <form id="cadProd" method="POST" enctype="multipart/form-data">
-                                <input type="hidden" name="prodcad" value="prodcadastrado">
+                                <input type="hidden" name="cadProd" value="s">
+                                <input type="hidden" name="idproduto" value="<?php echo isset($produto)?$produto["cd_produto"]:"" ?>">
+                                <input type="hidden" name="urlimagem" value="<?php echo isset($produto)?$produto["url_imagem"]:"" ?>">
                                 <div class="row no-gutters">
                                     <!-- Nome | Categoria | Valor -->
                                     <div class="col-12">
@@ -123,8 +123,24 @@
                                     <div class="col-12">
                                         <div class="m-1">
                                             <div class="form-group mb-0">
-                                                <label>Insira a imagem</label>
-                                                <input type="file" data-name="Imagem" name="imagemprod">
+                                                <?php 
+                                                    if(isset($produto)) {
+                                                        echo "
+                                                        <div id='thumb-imagem-produto'>
+                                                            <div class='d-flex justify-content-between align-items-center'>
+                                                                <img style='height: 128px' class='img-fluid d-block' src='". $produto["url_imagem"] ."'>
+                                                                <div><a href='#' onClick='(function(e){ toggleInputImagemProduto(); })();' class='btn btn-warning m-auto'>Trocar imagem</a></div>
+                                                            </div>
+                                                        </div>";
+                                                    }
+
+                                                    echo "
+                                                    <div id='input-imagem-produto' class='". (isset($produto) ? 'd-none' : '') ."'>
+                                                        <label>Insira a imagem</label>
+                                                        <input type='file' data-name='Imagem' name='imagemprod' >
+                                                    </div>
+                                                    ";
+                                                ?>
                                             </div>
                                         </div>
                                     </div>
@@ -154,9 +170,9 @@
                                         <li class="list-group-item bg-light d-flex align-items-center justify-content-between">
                                             <strong class="h6 mb-0"><?php echo$rowmstPrd["nm_produto"]?> | R$ <?php echo$rowmstPrd["vl_produto"]?></strong> 
                                             <div class="btn-area">
-                                                <a href="" class="btn btn-danger" title="deletar"><i class="fa-solid fa-trash"></i></a>
+                                                <a href="cad-produto?id=<?php echo$rowmstPrd["cd_produto"]?>&action=delete" class="btn btn-danger" title="deletar"><i class="fa-solid fa-trash"></i></a>
                                                 <a href="cad-produto?id=<?php echo$rowmstPrd["cd_produto"]?>" class="btn btn-primary" title="editar"><i class="fa-solid fa-pencil"></i></a>
-                                                <a href="cad-produto?id=<?php echo$rowmstPrd["cd_produto"]?>&action=delete" class="btn btn-secondary"title="visualizar"><i class="fa-solid fa-magnifying-glass"></i></a>
+                                                <a  class="btn btn-secondary"title="visualizar"><i class="fa-solid fa-magnifying-glass"></i></a>
                                             </div>
                                         </li>
                                     </ul>
@@ -189,14 +205,32 @@
 <?php
     //TO-DO: incluir campo hidden 'idproduto', incluir itens adicionais na tela de atualização, mudar as variáveis da lógica de edição e atualizar a imagem do prduto e também apagar imagem. 
 
-    if(@$_POST['prodcad'] == "prodcadastrado") {
+    if(@$_POST['cadProd'] == "s") {
 
-        $existProd = isset($_POST["idcategoria"]) && !empty($_POST["idcategoria"]); 
+        $existProd = isset($_POST["idproduto"]) && !empty($_POST["idproduto"]); 
         if($existProd) {
-            atualizarProduto();
-            exit;
-        };
+            atualizarProduto($conexao, $cdRest);
+        } else {
+            incluirProduto($conexao, $cdRest);
+        }
 
+    }
+
+    if(isset($_GET["mensagem"]) && $_GET["mensagem"]=="true") {
+        echo "<script>
+                $(document).ready(function() {
+                    $('.modal-header h4').html('Sucesso').css('color','#28a745');
+                    $('.modal-body p').html('Seu cadastro foi <strong>atualizado</strong> com sucesso!').css('text-align','center');
+                    $('.modal-footer button').css('display', 'none');
+                    $('#modal_validation').modal('toggle');
+                    setTimeout(function() {
+                        self.location = 'cad-produto'; 
+                    }, 1500);
+                })
+        </script>";
+    }
+
+    function incluirProduto($conexao, $cdRest) {
         $nmproduto      = mysqli_real_escape_string($conexao, trim($_POST["nmproduto"]));
         $vlproduto      = mysqli_real_escape_string($conexao, trim($_POST["vlproduto"]));
         $dsproduto      = mysqli_real_escape_string($conexao, trim($_POST["descproduto"]));  
@@ -209,8 +243,8 @@
         // criar campo no banco de dados pra receber  $urlImagem
 
         // insere dados na tabela produto
-        $sqlCadProd = "INSERT INTO produto (cd_categoria,nm_produto,vl_produto,ds_produto,cd_restaurante)
-        VALUES(".$cdcategoria .",'".$nmproduto."',".$vlproduto.",'".$dsproduto."',$cdRest)";
+        $sqlCadProd = "INSERT INTO produto (cd_categoria,nm_produto,vl_produto,ds_produto, url_imagem, cd_restaurante)
+        VALUES(".$cdcategoria .",'".$nmproduto."',".$vlproduto.",'".$dsproduto."', '/assets/img/produtos/$urlImagem', $cdRest)";
         GetBanco()->query($sqlCadProd);
 
         $id = mysqli_insert_id(GetBanco());
@@ -222,39 +256,48 @@
         GetBanco()->query($sqlRelacao);
 
         unset($_POST);
-        ?>
-        <script>
-            $(document).ready(function() {
-                $('.modal-header h4').html('Sucesso').css('color','#28a745');
-                $('.modal-body p').html('Produto cadastrado com sucesso!').css('text-align','center');
-                $('.modal-footer button').css('display', 'none');
-                $('#modal_validation').modal('toggle');
-                setTimeout(function() {
-                    self.location = 'cad-produto'; 
-                }, 1500); 
-            })
-         </script>
-    <?php 
-    }; 
-    function atualizarProduto() {
+        mensagem(false);
+    }
 
-        $id = $_POST["idproduto"];
+    function atualizarProduto($conexao, $cdRest) {
+
+        $id             = $_POST["idproduto"];
+        $nmproduto      = mysqli_real_escape_string($conexao, trim($_POST["nmproduto"]));
+        $vlproduto      = mysqli_real_escape_string($conexao, trim($_POST["vlproduto"]));
+        $dsproduto      = mysqli_real_escape_string($conexao, trim($_POST["descproduto"]));  
+        $cdcategoria    = mysqli_real_escape_string($conexao, trim($_POST["cdcategoria"]));        
+        $imagem         = $_FILES["imagemprod"];
+        $extensao       = explode('.', $imagem['full_path']);
+        $extensao       = end($extensao);
+        $urlImagem      = uniqid("").".$extensao";
+
+        unlink($_POST['url_imagem']);
+        move_uploaded_file($imagem['tmp_name'], '../assets/img/produtos/'.$urlImagem);
+
+        $sqlCadProd = "UPDATE produto SET 
+        cd_categoria = ".$cdcategoria .",
+        nm_produto = '".$nmproduto."',
+        vl_produto = ".$vlproduto.",
+        ds_produto = '".$dsproduto."',
+        cd_restaurante = $cdRest,
+        url_imagem = '/assets/img/produtos/$urlImagem'
+        WHERE cd_produto = $id";
+        GetBanco()->query($sqlCadProd);
+
         $listaExiste = "SELECT cd_itemad FROM prod_item WHERE cd_produto = ".$id;
         $resultlistaExiste  = $conexao->query($listaExiste);
         $lista = $resultlistaExiste ->fetch_all();
 
         $novosItems = [];
 
-        foreach($_POST["itemadicional"] as $value){
-            if(array_search($value, $lista) === false){
+        foreach($lista as $value){
+            if(array_search($value[0], $_POST["itemadicional"]) === false){
                 $novosItems[] = $value;
             }
         }
         
         $sqlExcluiItens = "DELETE FROM prod_item WHERE cd_produto = ".$id." AND cd_itemad NOT IN (".implode(',',$_POST["itemadicional"]).")";
         GetBanco()->query($sqlExcluiItens);
-
-        // $sqlCat =  "UPDATE categoria SET nm_categoria = '".$nomeCategoria."' WHERE cd_categoria = ".$_POST["idproduto"];
    
         $sqlRelacao = "INSERT INTO prod_item (cd_produto, cd_itemad) VALUES ";
         foreach($novosItems as $value){
@@ -263,19 +306,23 @@
         $sqlRelacao = rtrim($sqlRelacao,",");
         GetBanco()->query($sqlRelacao);
 
+
+        unset($_POST);
+        mensagem(true);
     }
-    if(isset($_GET["mensagem"]) && $_GET["mensagem"]=="true") {?>
-    <script>
+
+    function mensagem($atualizacao) {
+        echo "<script>
             $(document).ready(function() {
                 $('.modal-header h4').html('Sucesso').css('color','#28a745');
-                $('.modal-body p').html('Seu cadastro foi <strong>excluido</strong> com sucesso!').css('text-align','center');
+                $('.modal-body p').html('Seu cadastro foi <strong>". ($atualizacao ? "atualizado" : "concluído") ."</strong> com sucesso!').css('text-align','center');
                 $('.modal-footer button').css('display', 'none');
                 $('#modal_validation').modal('toggle');
                 setTimeout(function() {
-                    self.location = 'cad-categoria'; 
+                    self.location = 'cad-produto'; 
                 }, 1500); 
             })
-    </script>
-    <?php 
-    };   
+        </script>";
+    }
+
 ?>
