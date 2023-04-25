@@ -7,7 +7,7 @@
 
         $catProd = "DELETE FROM produto WHERE cd_restaurante = $cdRest AND cd_produto = ".$_GET["id"];
         $resultCatProd = $conexao->query($catProd);
-        header("Location: ../adm/cad-categoria?mensagem=true");
+        header("Location: ../adm/cad-produto?mensagem=true");
 
     } else if(isset($_GET["id"])){
 
@@ -156,7 +156,7 @@
                                             <div class="btn-area">
                                                 <a href="" class="btn btn-danger" title="deletar"><i class="fa-solid fa-trash"></i></a>
                                                 <a href="cad-produto?id=<?php echo$rowmstPrd["cd_produto"]?>" class="btn btn-primary" title="editar"><i class="fa-solid fa-pencil"></i></a>
-                                                <a href="cad-produto?id=<?php echo$rowmstPrd["cd_produto"]?>&action=delete" class="btn btn-secondary"title="visualizar"><i class="fa-solid fa-magnifying-glass"></i></a>
+                                                <a href="" class="btn btn-secondary"title="visualizar"><i class="fa-solid fa-magnifying-glass"></i></a>
                                             </div>
                                         </li>
                                     </ul>
@@ -240,7 +240,7 @@
 
         $id = $_POST["idproduto"];
         $listaExiste = "SELECT cd_itemad FROM prod_item WHERE cd_produto = ".$id;
-        $resultlistaExiste  = $conexao->query($listaExiste);
+        $resultlistaExiste = $conexao->query($listaExiste);
         $lista = $resultlistaExiste ->fetch_all();
 
         $novosItems = [];
@@ -272,7 +272,7 @@
                 $('.modal-footer button').css('display', 'none');
                 $('#modal_validation').modal('toggle');
                 setTimeout(function() {
-                    self.location = 'cad-categoria'; 
+                    self.location = 'cad-produto'; 
                 }, 1500); 
             })
     </script>
