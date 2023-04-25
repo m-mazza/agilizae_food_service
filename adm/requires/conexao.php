@@ -6,8 +6,8 @@ function GetBanco() {
     $ambiente = substr($_SERVER['HTTP_HOST'],  0, 1); 
     if( $banco )
        return $banco;
-       if($ambiente == 'l') {
-            $banco = new mysqli('localhost', 'root', '', 'db_agilizae');
+       if($ambiente == 'f') {
+            $banco = new mysqli('localhost', 'food', 'Agilizae@2022', 'db_agilizae');
         } else {
             // $banco = new mysqli('mysql.projetospitico.kinghost.net', 'projetospitico18', 'crmpitico11', 'projetospitico18');
         }

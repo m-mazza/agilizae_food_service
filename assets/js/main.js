@@ -1,6 +1,13 @@
+function toggleInputImagemProduto() {
+    $('#thumb-imagem-produto').toggleClass('d-none');
+    $('#input-imagem-produto').toggleClass('d-none');
+    $('#input-imagem-produto').toggleClass('d-flex');
+}
+
+
 $(document).ready(function () {
-
-
+    
+    
 //SETA IMAGEM DE INTRODUÇÃO (BANNER RESTAURANTE)
     $('.bannerIntro').each(function () {
         var bg = $(this).data('banner');
