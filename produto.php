@@ -69,8 +69,8 @@
                         </div>
                         
                         <div id="cart" class="d-flex align-items-center justify-content-between">
-                            <input type="number" name="qtd" value="1" min="1" max="100" step="1">
-                            <button type="submit" class="btn btn-primary">Adicionar&nbsp;&nbsp;<strong id="totalProduto">R$ 00.00</strong></button>
+                            <input type="number" name="qtd" value="0" min="0" max="100" step="1">
+                            <button type="submit" class="btn btn-primary">Adicionar&nbsp;&nbsp;<strong id="totalProduto">R$ 00,00</strong></button>
                         </div>
                     </form>
                     <div class="my-2 text-center">

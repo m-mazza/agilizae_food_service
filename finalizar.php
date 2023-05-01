@@ -17,18 +17,6 @@
                     </div>
       
 
-                    <div id="finalProd" class="mb-3 py-2 border-bottom">
-                        <div class="prodWrapper">
-                            <img src="assets/img/produtos/prod_1.png">
-                                <div class="prodInfo">
-                                    <p>Nome do Produto</p>
-                                    <p>Nome do Adicional</p>
-                                    <p>R$ 00.00</p>
-                                </div>
-                            <input type="number" value="1" min="1" max="100" step="1">
-                        </div>
-                    </div>
-
                     <div class="mt-2 mb-4">
                         <p class="my-2"><strong>Forma de Pagamento:</strong></p>
                         <div class="list-group">
@@ -66,15 +54,16 @@
                             </label>
                         </div>              
                     </div>  
-
-
-                    <div class="finalarea">
+                    <div class="mt-2 mb-4">
                         <h6><strong>TOTAL DO PEDIDO: R$ 00.00</strong></h6>
                         <div class="infoFinal">
                             <p>Pagamento: Cartão - Débito</p>
                             <p>Observações: Retirar cebolas e alface do Lanche.</p>
                             <p>Endereço: Rua Paraná, 223 - Vila Mathias</p>
                         </div>
+                    </div>
+
+                    <div class="finalarea">
                         <a href="finalizar" class="btn btn-primary w-100">finalizar pedido</a>
                     </div>
                 </div>

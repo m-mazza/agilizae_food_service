@@ -4,7 +4,6 @@ function toggleInputImagemProduto() {
     $('#input-imagem-produto').toggleClass('d-flex');
 }
 
-
 $(document).ready(function () {
     
     

@@ -26,7 +26,7 @@ function calcularValorProduto() {
 
     
     console.log( displayVal );
-    $('#totalProduto').html('R$ '+ displayVal);
+    $('#totalProduto').html('R$ '+ displayVal+',00');
 
     return displayVal;
 }

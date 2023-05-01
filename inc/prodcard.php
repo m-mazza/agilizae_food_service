@@ -1,24 +1,21 @@
 <?php 
-    $sqlProduto = "SELECT * FROM produto  WHERE cd_restaurante = 01";
-    $dadosProduto = $conexao->query($sqlProduto);
-    $lista = $dadosProduto->fetch_all(MYSQLI_ASSOC);
-    $listaAgrupada = [];
-    
-    foreach($lista as $itemLista ){
-        if(array_key_exists($itemLista['cd_categoria'], $listaAgrupada) ){
-            $listaAgrupada[$itemLista['cd_categoria']][]=$itemLista;
-        } else {
-            $listaAgrupada[$itemLista['cd_categoria']]=[$itemLista];
-        }
+$sqlProduto = "SELECT * FROM produto  WHERE cd_restaurante = 01";
+$dadosProduto = $conexao->query($sqlProduto);
+$lista = $dadosProduto->fetch_all(MYSQLI_ASSOC);
+$listaAgrupada = [];
+
+foreach($lista as $itemLista ){
+    if(array_key_exists($itemLista['cd_categoria'], $listaAgrupada) ){
+        $listaAgrupada[$itemLista['cd_categoria']][]=$itemLista;
+    } else {
+        $listaAgrupada[$itemLista['cd_categoria']]=[$itemLista];
     }
+}
 
+foreach($listaAgrupada as $cod => $itemAgrupado){
     
-    foreach($listaAgrupada as $cod => $itemAgrupado){
-        
-        echo "<section id='cat-$cod'>";
-
-        foreach($itemAgrupado as $rowProduto){
-?>
+    echo "<section id='cat-$cod'>";
+    foreach($itemAgrupado as $rowProduto){ ?>
 
 <div class="row no-gutters justify-content-center">
     <div class="col-12">
@@ -44,9 +41,9 @@
         </div>
     </div>
 </div>
-        
+    
 <?php
-        }
-        echo '</section>';
     }
+    echo '</section>';
+}
 ?>
