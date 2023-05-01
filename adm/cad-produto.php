@@ -240,11 +240,11 @@
         $extensao       = end($extensao);
         $urlImagem      = uniqid("").".$extensao";
         move_uploaded_file($imagem['tmp_name'], '../assets/img/produtos/'.$urlImagem);      
-        // criar campo no banco de dados pra receber  $urlImagem
+
 
         // insere dados na tabela produto
         $sqlCadProd = "INSERT INTO produto (cd_categoria,nm_produto,vl_produto,ds_produto, url_imagem, cd_restaurante)
-        VALUES(".$cdcategoria .",'".$nmproduto."',".$vlproduto.",'".$dsproduto."', '/assets/img/produtos/$urlImagem', $cdRest)";
+        VALUES(".$cdcategoria .",'".$nmproduto."',".$vlproduto.",'".$dsproduto."', 'assets/img/produtos/$urlImagem', $cdRest)";
         GetBanco()->query($sqlCadProd);
 
         $id = mysqli_insert_id(GetBanco());

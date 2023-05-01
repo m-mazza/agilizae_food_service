@@ -1,3 +1,8 @@
+<?php 
+    $sqlRestaurante = "SELECT * FROM restaurante WHERE cd_restaurante = 01";
+    $dadosRestaurante = $conexao->query( $sqlRestaurante );
+    $rowRestaurante = $dadosRestaurante->fetch_assoc();
+?>
 <div class="bannerIntro" data-banner="assets/img/institucional/restaurante.png"></div>
 
 <div class="restauranteInfo">
@@ -9,8 +14,8 @@
                     <?php echo$txtStatus?>
                 </span>
                 <div class="RestaurantAddress">
-                    <h5 class="mb-0">McDonald's | Santa Casa</h5>
-                    <p class="text-secondary mb-0">Av. Dr. Cláudio Luiz da Costa, 129 </p>
+                    <h5 class="mb-0"><?php echo$rowRestaurante['nm_fantasia'];?></h5>
+                    <p class="text-secondary mb-0"><?php echo$rowRestaurante['ds_rua'].' '.$rowRestaurante['ds_num'].', '.$rowRestaurante['ds_bairro'].' - '.$rowRestaurante['cd_cep'].' - '.$rowRestaurante['nm_cidade'] ?></p>
                 </div>
             </div>               
         </div>

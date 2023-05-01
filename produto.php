@@ -1,4 +1,10 @@
 <?php include('inc/header.php');?>
+
+    <?php
+        $produtoIndividual = "SELECT * FROM produto WHERE cd_produto =".$_GET['produto']."";
+        $infoProdutoIndividual = $conexao->query($produtoIndividual);
+        $rowInfo = $infoProdutoIndividual->fetch_assoc();
+    ?>
     <div class="my-5">
         <div class="container">
             <div class="row no-gutters justify-content-center">
@@ -6,46 +12,53 @@
                 <div class="col-12 col-sm-8 col-md-5">
 
          
-                <div class="barra-produto">
-                    <div class="my-2 row no-gutters align-items-center">
-                        <div class="col-11">
-                            <h5 class="bold mb-0"><strong>Título do produto</strong></h5>
-                        </div>
-                        <div class="col-1 text-right">
-                            <a style="font-size: 1.3rem;" href="main"><i class="las la-chevron-circle-right"></i></a>
+                    <div class="barra-produto">
+                        <div class="my-2 row no-gutters align-items-center">
+                            <div class="col-11">
+                                <h5 class="bold mb-0"><strong><?php echo$rowInfo['nm_produto']?></strong></h5>
+                            </div>
+                            <div class="col-1 text-right">
+                                <a style="font-size: 1.3rem;" href="./"><i class="las la-chevron-circle-right"></i></a>
+                            </div>
                         </div>
                     </div>
-                </div>
-
-                <!-- Imagem do produto -->
           
                     <div class="my-2">
-                        <div class="imgProd" data-img="assets/img/produtos/prod_1.png"></div>
+                        <div class="imgProd" data-img="<?php echo$rowInfo['url_imagem'];?>"></div>
                     </div>
       
-
-                <!-- Descrição do Produto -->
-         
-                    <div class="my-3">
-                        <h5 class="bold"><strong>R$ 00.00</strong></h5>
-                        <p class="text-secondary">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis tempor dignissim dapibus. Suspendisse condimentum placerat augue, posuere accumsan mauris ultricies quis. </p>
-                        <div class="my-2">
-                            <p class="my-2"><strong>Itens Adicionais</strong></p>
-                            <div class="list-group">
-                                <label class="form-check-label" for="">
-                                    <div class="form-check list-group-item list-group-item-action">
-                                        <div class="d-flex d-flex justify-content-between align-items-center">
-                                            <p class="mb-0">Adicional 1 + <strong>R$ 0,00</strong></p>
-                                            <input type="radio" name="complementos" id="" value="">
-                                        </div>
-                                    </div>
-                                </label>
-                            </div>              
-                        </div>
-                    </div>
-
-                <!-- finalização do pedido colocar tudo no formulário, até o botão azul de adcionar, vai ser o submit -->
                     <form id="prod-indv"  method="POST" action="">
+                        <input type="hidden" name="idproduto" value="<?php echo$rowInfo["cd_produto"] ?>">
+                        <input type="hidden" name="vlproduto" value="<?php echo$rowInfo["vl_produto"] ?>">
+                        <div class="my-3">
+                            <h5 class="bold"><strong>R$ <?php echo number_format( floatval($rowInfo["vl_produto"]), 2,',','.' )?></strong></h5>
+                            <p class="text-secondary"><?php echo $rowInfo["ds_produto"]?></p>
+            
+                            
+                            <div class="my-2">
+                                <p class="my-2"><strong>Itens Adicionais</strong></p>
+                                <div class="list-group">
+                                    <?php
+                                    $slectItemAd = "SELECT * FROM complemento_produto WHERE cd_restaurante = 01";
+                                    $resultItemAd = $conexao->query($slectItemAd);
+                                    $linhasItemAd = $resultItemAd->num_rows; 
+
+                                    while($rowItAd = $resultItemAd->fetch_assoc()) { ?>
+                                    <label class="form-check-label" for="">
+                                        <div class="form-check list-group-item list-group-item-action">
+                                            <div class="d-flex d-flex justify-content-between align-items-center">
+                                                <p class="mb-0"><?php echo$rowItAd["nm_itemad"]?> + <strong> R$ <?php echo$rowItAd["vl_itemad"]?></strong></p>
+                                                <input type="checkbox" name="itemad" data-id="<?php echo$rowItAd["cd_itemad"]?>" value="<?php echo$rowItAd["vl_itemad"]?>">
+                                            </div>
+                                        </div>
+                                    </label>
+                                    <?php
+                                    }
+                                    ?>
+                                </div>              
+                            </div>
+                        </div>
+                  
                         <div class="form-group">
                             <label for="modificacao">Observações:</label>
                             <textarea class="form-control px-2 py-2" rows="2" name="modificacao" placeholder="informe modificações aqui"></textarea>
@@ -100,7 +113,7 @@
                         </div>
                     </form>
                     <div class="my-2 text-center">
-                        <a href="main" class="d-block py-2"><i class="las la-plus-circle mr-2"></i>incluir mais itens</a>
+                        <a href="./" class="d-block py-2"><i class="las la-plus-circle mr-2"></i>incluir mais itens</a>
                         <a href="finalizar" class="btn btn-primary w-100">finalizar pedido</a>
                     </div>
                 </div>
