@@ -22,7 +22,7 @@
             </nav>
             <main id="cadArea" role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center px-4 py-4 mb-3 border-bottom">
-                    <h3 class="h2 mb-0"><?php echo isset($categoria)?"Editar":"Cadastro"?> - Categoria</h3>
+                    <h3 class="h2 mb-0"><?php echo isset($categoria)?"Editar":"Cadastrar"?> Categoria</h3>
                 </div>
       
                 <div class="p-3" style="height:100vh">
@@ -32,7 +32,7 @@
                                 <input type="hidden" name="idcategoria" value="<?php echo isset($categoria)?$categoria["cd_categoria"]:"" ?>">
                                 <input type="hidden" name="cadCategor" value="s">
                                 <div class="row no-gutters">
-                                    <div class="col-5">
+                                    <div class="col-12 col-md-5">
                                         <label>Nome da Categoria</label>
                                         <div class="form-group d-flex mb-0">                                                
                                             <input type="text" class="form-control" data-name="Nome da Categoria" name="categ" value="<?php echo isset($categoria)?$categoria["nm_categoria"]:"" ?>">&nbsp;
@@ -47,46 +47,28 @@
                         $catProd = "SELECT * FROM categoria WHERE cd_restaurante = $cdRest";
                         $resultCatProd = $conexao->query($catProd);
                         $linhasCatProd = $resultCatProd->num_rows; 
-                        if($linhasCatProd > 0) {?>                          
-                        <div class="col-6">
+                        if($linhasCatProd > 0) {?>
+                        <div class="col-12">
                             <div class="mx-1">
-                                <h5 class="mb-2">Categorias Ativas</h5>
+                                <h5 class="mb-2">Categorias Cadastradas</h5>
                             </div>
-                            <?php
-                            while($rowCtPrd = $resultCatProd->fetch_assoc()) { ?>
-                            <div class="my-2">
+                        </div>
+                        <?php while($rowCtPrd = $resultCatProd->fetch_assoc()) { ?>                        
+                        <div class="col-12 col-md-6">
+                            <div class="m-1">
                                 <ul class="list-group">
                                     <li class="list-group-item bg-light d-flex align-items-center justify-content-between">
                                         <strong class="h6 mb-0"><?php echo$rowCtPrd["nm_categoria"]?></strong> 
                                         <div class="btn-area">
                                             <a href="cad-categoria?id=<?php echo$rowCtPrd["cd_categoria"]?>&action=delete" class="btn btn-danger" title="deletar"><i class="fa-solid fa-trash"></i></a>
                                             <a href="cad-categoria?id=<?php echo$rowCtPrd["cd_categoria"]?>" class="btn btn-primary" title="editar"><i class="fa-solid fa-pencil"></i></a>
-                                            <a href="" class="btn btn-secondary" title="ocultar"><i class="fa-solid fa-eye-slash"></i></a>
                                         </div>
                                     </li>
                                 </ul>
                             </div>
-                            <?php }; ?>
                         </div>
-                        <div class="col-6">
-                            <div class="mx-3"> 
-                                <div class="mx-1">
-                                    <h5 class="mb-2">Categorias Inativas</h5>
-                                </div>
-                                <div class="my-2">
-                                    <ul class="list-group">
-                                        <li class="list-group-item d-flex align-items-center justify-content-between">
-                                            <strong class="h6 mb-0">Nome da categoria</strong>  
-                                            <div class="btn-area-two">
-                                                <a href="" class="btn btn-danger" title="deletar"><i class="fa-solid fa-trash"></i></a>
-                                                <a href="" class="btn btn-secondary" title="mostrar"><i class="fa-solid fa-eye"></i></a>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <?php } else {?>
+                        <?php };
+                        } else {?>
                         <div class="col-12">
                             <div class="mx-1 my-3">
                                 <ul class="list-group">

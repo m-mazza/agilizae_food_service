@@ -1,8 +1,4 @@
-<?php 
-    $sqlRestaurante = "SELECT * FROM restaurante WHERE cd_restaurante = 01";
-    $dadosRestaurante = $conexao->query( $sqlRestaurante );
-    $rowRestaurante = $dadosRestaurante->fetch_assoc();
-?>
+
 <div class="bannerIntro" data-banner="assets/img/institucional/restaurante.png"></div>
 
 <div class="restauranteInfo">

@@ -3,12 +3,16 @@
 <?php
     include('adm/requires/functions.php'); 
     include('adm/requires/conexao.php');
+
+    $sqlRestaurante = "SELECT * FROM restaurante WHERE cd_restaurante = 01";
+    $dadosRestaurante = $conexao->query( $sqlRestaurante );
+    $rowRestaurante = $dadosRestaurante->fetch_assoc();
 ?>
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TCC | Loja McDonald's</title>
+    <title><?php echo$rowRestaurante['nm_fantasia'];?></title>
     <link rel="stylesheet" type="text/css" href="assets/css/main.css">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>

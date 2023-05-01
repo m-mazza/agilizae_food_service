@@ -162,17 +162,16 @@
                             ?>
                             <div class="mx-3">
                                 <div class="mx-1">
-                                    <h5 class="mb-2">Últimos Produtos Cadastrados</h5>
+                                    <h5 class="mb-2">Produtos Cadastrados</h5>
                                 </div>
                                 <?php while($rowmstPrd = $resultmostraProduto->fetch_assoc()) { ?>
-                                <div class="my-3">
+                                <div class="m-1">
                                     <ul class="list-group">
                                         <li class="list-group-item bg-light d-flex align-items-center justify-content-between">
                                             <strong class="h6 mb-0"><?php echo$rowmstPrd["nm_produto"]?> | R$ <?php echo$rowmstPrd["vl_produto"]?></strong> 
                                             <div class="btn-area">
                                                 <a href="cad-produto?id=<?php echo$rowmstPrd["cd_produto"]?>&action=delete" class="btn btn-danger" title="deletar"><i class="fa-solid fa-trash"></i></a>
                                                 <a href="cad-produto?id=<?php echo$rowmstPrd["cd_produto"]?>" class="btn btn-primary" title="editar"><i class="fa-solid fa-pencil"></i></a>
-                                                <a  class="btn btn-secondary"title="visualizar"><i class="fa-solid fa-magnifying-glass"></i></a>
                                             </div>
                                         </li>
                                     </ul>
@@ -244,7 +243,7 @@
 
         // insere dados na tabela produto
         $sqlCadProd = "INSERT INTO produto (cd_categoria,nm_produto,vl_produto,ds_produto, url_imagem, cd_restaurante)
-        VALUES(".$cdcategoria .",'".$nmproduto."',".$vlproduto.",'".$dsproduto."', 'assets/img/produtos/$urlImagem', $cdRest)";
+        VALUES(".$cdcategoria .",'".$nmproduto."',".$vlproduto.",'".$dsproduto."', '../assets/img/produtos/$urlImagem', $cdRest)";
         GetBanco()->query($sqlCadProd);
 
         $id = mysqli_insert_id(GetBanco());
@@ -280,7 +279,7 @@
         vl_produto = ".$vlproduto.",
         ds_produto = '".$dsproduto."',
         cd_restaurante = $cdRest,
-        url_imagem = '/assets/img/produtos/$urlImagem'
+        url_imagem = '../assets/img/produtos/$urlImagem'
         WHERE cd_produto = $id";
         GetBanco()->query($sqlCadProd);
 

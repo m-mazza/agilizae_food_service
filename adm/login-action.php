@@ -1,6 +1,5 @@
 
 <?php
-
     error_reporting(E_WARNING);
     include('requires/conexao.php');    
         if(@$_POST) { 

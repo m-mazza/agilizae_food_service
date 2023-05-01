@@ -142,7 +142,7 @@ button, a { font-size: 0.8rem !important; }
     border-color: #bebebe;
 }
 .btn-area {
-    width: 23%;
+    width: 14%;
     display: flex;
     justify-content: space-between;
 }

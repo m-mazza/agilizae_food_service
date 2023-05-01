@@ -26,7 +26,7 @@
             </nav>
             <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center px-4 py-4 mb-3 border-bottom">
-                    <h3 class="h2 mb-0"><?php echo isset($itemAdicional)?"Editar":"Cadastro"?> - item adicional</h3>
+                    <h3 class="h2 mb-0"><?php echo isset($itemAdicional)?"Editar":"Cadastrar"?> item adicional</h3>
                 </div>
                 <div class="p-3" style="height:100vh">
                     <div class="row no-gutters">
@@ -63,48 +63,30 @@
                         $resultItemAd = $conexao->query($slectItemAd);
                         $linhasItemAd = $resultItemAd->num_rows; 
                         if($linhasItemAd > 0) {?>  
-
-                        <div class="col-6">
+                        <div class="col-12">
                             <div class="mx-1">
-                                <h5 class="mb-2">Itens Adicionais Ativos</h5>
+                                <h5 class="mb-2">Itens Adicionais Cadastrados</h5>
                             </div>
-                            <?php 
+                        </div>
+                        <?php 
                              while($rowItAd = $resultItemAd->fetch_assoc()) { ?>
-                            <div class="my-3">
+                        <div class="col-6">
+                          
+                            <div class="m-1">
                                 <ul class="list-group">
                                     <li class="list-group-item bg-light d-flex align-items-center justify-content-between">
                                         <strong class="h6 mb-0"><?php echo$rowItAd["nm_itemad"]?> | R$ <?php echo$rowItAd["vl_itemad"]?></strong> 
                                         <div class="btn-area">
                                             <a href="cad-itemadicional?id=<?php echo$rowItAd["cd_itemad"]?>&action=delete" class="btn btn-danger" title="deletar"><i class="fa-solid fa-trash"></i></a>
                                             <a href="cad-itemadicional?id=<?php echo$rowItAd["cd_itemad"]?>" class="btn btn-primary" title="editar"><i class="fa-solid fa-pencil"></i></a>
-                                            <a href="" class="btn btn-secondary" title="ocultar"><i class="fa-solid fa-eye-slash"></i></a>
                                         </div>
                                     </li>
                                 </ul>
                             </div>
-                            <?php }; ?>
+                            
                         </div>
-               
-                        <div class="col-6">
-                            <div class="mx-3">         
-                                <div class="mx-1">
-                                    <h5 class="mb-2">Itens Adicionais Inativos</h5>
-                                </div>
-                                <div class="my-3">
-                                    <ul class="list-group">
-                                        <li class="list-group-item d-flex align-items-center justify-content-between">
-                                            <strong class="h6 mb-0">Nome do item Adicional | R$ 00.00</strong> 
-                                            <div class="btn-area-two">
-                                                <a href="" class="btn btn-danger" title="deletar"><i class="fa-solid fa-trash"></i></a>
-                                                <a href="" class="btn btn-secondary" title="mostrar"><i class="fa-solid fa-eye"></i></a>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-
-                        <?php } else {?>
+                        <?php };
+                        } else {?>
 
                         <div class="col-12">
                             <div class="mx-1 my-3">
