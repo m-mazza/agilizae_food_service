@@ -27,10 +27,11 @@ CREATE TABLE `produto` (
   `cd_categoria` int DEFAULT NULL,
   `cd_restaurante` int DEFAULT NULL,
   `nm_produto` varchar(20) DEFAULT NULL,
-  `vl_produto` float DEFAULT NULL,
+  `vl_produto` float(10,2) DEFAULT NULL,
   `ds_produto` varchar(500) DEFAULT NULL,
+  `url_imagem` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`cd_produto`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -39,7 +40,7 @@ CREATE TABLE `produto` (
 
 LOCK TABLES `produto` WRITE;
 /*!40000 ALTER TABLE `produto` DISABLE KEYS */;
-INSERT INTO `produto` VALUES (1,6,NULL,'Dogão Super',45,'Dogão super.'),(2,6,NULL,'Dogão Master',45,'Dogão Master Triplo.'),(3,6,1,'Dogão Master',45,'Dogão Master Triplo.'),(5,1,1,'Teste',25,'Teste'),(6,1,1,'a',0,'a'),(7,2,1,'Teste',15,'a');
+INSERT INTO `produto` VALUES (1,6,NULL,'Dogão Super',45.00,'Dogão super.','../assets/img/produtos/prod_3.png'),(2,6,NULL,'Dogão Master',45.00,'Dogão Master Triplo.','../assets/img/produtos/prod_3.png'),(3,1,1,'Hot Dog Master',25.00,'Hot Dog Mater é composto por: \r\nPão tostado, Mussarela, Presunto, Bacon, Molho, 3 Salsichas, Purê de batatas e batata palha.','../assets/img/produtos/645045de4c3d5.jpg'),(7,1,1,'Hamburger Picanha',35.00,'Hamburguer picanha é composto por: Alface, Tomate, Molho especial, Mussarela, Bife de Picanha de 150g.','../assets/img/produtos/645047f2199ad.png');
 /*!40000 ALTER TABLE `produto` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -52,4 +53,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-04-24 21:59:28
+-- Dump completed on 2023-05-01 20:26:16
