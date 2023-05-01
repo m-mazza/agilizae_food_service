@@ -5,6 +5,7 @@
     <script src="assets/js/jquery.mask.js"></script>
     <script src="assets/js/jquery.nice-select.js"></script>
     <script src="assets/js/owl.carousel.js"></script>
+    <script src="assets/js/carrinho.js"></script>
     <script src="assets/js/main.js"></script>
 </body>
 </html>

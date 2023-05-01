@@ -34,7 +34,6 @@
                             <h5 class="bold"><strong>R$ <?php echo number_format( floatval($rowInfo["vl_produto"]), 2,',','.' )?></strong></h5>
                             <p class="text-secondary"><?php echo $rowInfo["ds_produto"]?></p>
             
-                            
                             <div class="my-2">
                                 <p class="my-2"><strong>Itens Adicionais</strong></p>
                                 <div class="list-group">
@@ -63,53 +62,15 @@
                             <label for="modificacao">Observações:</label>
                             <textarea class="form-control px-2 py-2" rows="2" name="modificacao" placeholder="informe modificações aqui"></textarea>
                         </div>
-                        
-                        <div class="mt-2 mb-4">
-                            <p class="my-2"><strong>Forma de Pagamento:</strong></p>
-                            <div class="list-group">
-                                <label class="form-check-label" for="">
-                                    <div class="form-check list-group-item list-group-item-action py-1 px-4">
-                                        <div class="d-flex d-flex justify-content-between align-items-center">
-                                            <p class="mb-0">Dinheiro</p>
-                                            <input type="radio" name="complementos" id="" value="">
-                                        </div>
-                                    </div>
-                                </label>
-                                <label class="form-check-label" for="">
-                                    <div class="form-check list-group-item list-group-item-action py-1 px-4">
-                                        <div class="d-flex d-flex justify-content-between align-items-center">
-                                            <p class="mb-0">Cartão - Débito</p>
-                                            <input type="radio" name="complementos" id="" value="">
-                                        </div>
-                                    </div>
-                                </label>
-                                <label class="form-check-label" for="">
-                                    <div class="form-check list-group-item list-group-item-action py-1 px-4">
-                                        <div class="d-flex d-flex justify-content-between align-items-center">
-                                            <p class="mb-0">Cartão - Crédito</p>
-                                            <input type="radio" name="complementos" id="" value="">
-                                        </div>
-                                    </div>
-                                </label>
-                                <label class="form-check-label" for="">
-                                    <div class="form-check list-group-item list-group-item-action py-1 px-4">
-                                        <div class="d-flex d-flex justify-content-between align-items-center">
-                                            <p class="mb-0">Vale Refeição - VR</p>
-                                            <input type="radio" name="complementos" id="" value="">
-                                        </div>
-                                    </div>
-                                </label>
-                            </div>              
-                        </div>
-
+                  
                         <div class="mt-2 mb-4">
                             <p class="my-2"><strong>Endereço de Entrega: </strong></p> 
                             <input type="text" class="form-control">           
                         </div>
                         
                         <div id="cart" class="d-flex align-items-center justify-content-between">
-                            <input type="number" value="1" min="1" max="100" step="1">
-                            <button type="submit" class="btn btn-primary">Adicionar&nbsp;&nbsp;<strong>R$ 00.00</strong></button>
+                            <input type="number" name="qtd" value="1" min="1" max="100" step="1">
+                            <button type="submit" class="btn btn-primary">Adicionar&nbsp;&nbsp;<strong id="totalProduto">R$ 00.00</strong></button>
                         </div>
                     </form>
                     <div class="my-2 text-center">

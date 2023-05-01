@@ -11,10 +11,11 @@
                                 <h5 class="bold mb-0"><strong>Finalizar Pedido</strong></h5>
                             </div>
                             <div class="col-1 text-right">
-                                <a style="font-size: 1.3rem;" href="main"><i class="las la-chevron-circle-right"></i></a>
+                                <a style="font-size: 1.3rem;" href="./"><i class="las la-chevron-circle-right"></i></a>
                             </div>
                         </div>
                     </div>
+      
 
                     <div id="finalProd" class="mb-3 py-2 border-bottom">
                         <div class="prodWrapper">
@@ -27,6 +28,45 @@
                             <input type="number" value="1" min="1" max="100" step="1">
                         </div>
                     </div>
+
+                    <div class="mt-2 mb-4">
+                        <p class="my-2"><strong>Forma de Pagamento:</strong></p>
+                        <div class="list-group">
+                            <label class="form-check-label" for="">
+                                <div class="form-check list-group-item list-group-item-action py-1 px-4">
+                                    <div class="d-flex d-flex justify-content-between align-items-center">
+                                        <p class="mb-0">Dinheiro</p>
+                                        <input type="radio" name="complementos" id="" value="">
+                                    </div>
+                                </div>
+                            </label>
+                            <label class="form-check-label" for="">
+                                <div class="form-check list-group-item list-group-item-action py-1 px-4">
+                                    <div class="d-flex d-flex justify-content-between align-items-center">
+                                        <p class="mb-0">Cartão - Débito</p>
+                                        <input type="radio" name="complementos" id="" value="">
+                                    </div>
+                                </div>
+                            </label>
+                            <label class="form-check-label" for="">
+                                <div class="form-check list-group-item list-group-item-action py-1 px-4">
+                                    <div class="d-flex d-flex justify-content-between align-items-center">
+                                        <p class="mb-0">Cartão - Crédito</p>
+                                        <input type="radio" name="complementos" id="" value="">
+                                    </div>
+                                </div>
+                            </label>
+                            <label class="form-check-label" for="">
+                                <div class="form-check list-group-item list-group-item-action py-1 px-4">
+                                    <div class="d-flex d-flex justify-content-between align-items-center">
+                                        <p class="mb-0">Vale Refeição - VR</p>
+                                        <input type="radio" name="complementos" id="" value="">
+                                    </div>
+                                </div>
+                            </label>
+                        </div>              
+                    </div>  
+
 
                     <div class="finalarea">
                         <h6><strong>TOTAL DO PEDIDO: R$ 00.00</strong></h6>

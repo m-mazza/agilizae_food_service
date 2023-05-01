@@ -38,11 +38,11 @@ $(document).ready(function () {
                 loop: true
             },
             424.98 : {
-                items: 6,
+                items: 4,
                 loop: true
             },
             767.98: {
-                items: 10,
+                items: 4,
                 loop: true
             }
         }
