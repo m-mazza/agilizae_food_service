@@ -18,11 +18,9 @@
         WHERE CP.cd_restaurante = $cdRest AND PI.cd_produto = ".$_GET["id"];
         $resCP = $conexao->query($CP);
         $itemsAdicionados = $resCP->fetch_all();
-
     }
     
     ?>
-
     <?php 
         $itemAdicional = "SELECT * FROM complemento_produto WHERE cd_restaurante =  $cdRest";
         $resultitemAdicional = $conexao->query($itemAdicional);
@@ -41,7 +39,6 @@
                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center px-4 py-4 mb-3 border-bottom">
                     <h3 class="h2 mb-0"><?php echo isset($produto)?"Editar":"Cadastrar"?> Produto</h3>
                 </div>
-
                 <div class="p-3" style="height:100vh">
                     <div class="row no-gutters">
                         <div class="col-12 col-sm-6">
@@ -128,12 +125,11 @@
                                                         echo "
                                                         <div id='thumb-imagem-produto'>
                                                             <div class='d-flex justify-content-between align-items-center'>
-                                                                <img style='height: 128px' class='img-fluid d-block' src='". $produto["url_imagem"] ."'>
+                                                                <img style='height: 128px' class='img-fluid d-block' src='../". $produto["url_imagem"] ."'>
                                                                 <div><a href='#' onClick='(function(e){ toggleInputImagemProduto(); })();' class='btn btn-warning m-auto'>Trocar imagem</a></div>
                                                             </div>
                                                         </div>";
-                                                    }
-
+                                                    } 
                                                     echo "
                                                     <div id='input-imagem-produto' class='". (isset($produto) ? 'd-none' : '') ."'>
                                                         <label>Insira a imagem</label>
@@ -182,7 +178,7 @@
                             <div class="mx-3">
                                 <ul class="list-group">
                                     <li class="list-group-item d-flex align-items-center justify-content-center">
-                                        <strong class="h6 mb-0">você não tem <strong>produtos</strong> cadastradas aindas.</strong>
+                                        <strong class="h6 mb-0">você não tem <strong>produtos</strong> cadastrado ainda.</strong>
                                     </li>
                                 </ul>
                             </div>
@@ -202,7 +198,6 @@
 </script>
 
 <?php
-    //TO-DO: incluir campo hidden 'idproduto', incluir itens adicionais na tela de atualização, mudar as variáveis da lógica de edição e atualizar a imagem do prduto e também apagar imagem. 
 
     if(@$_POST['cadProd'] == "s") {
 
@@ -243,7 +238,7 @@
 
         // insere dados na tabela produto
         $sqlCadProd = "INSERT INTO produto (cd_categoria,nm_produto,vl_produto,ds_produto, url_imagem, cd_restaurante)
-        VALUES(".$cdcategoria .",'".$nmproduto."',".$vlproduto.",'".$dsproduto."', '../assets/img/produtos/$urlImagem', $cdRest)";
+        VALUES(".$cdcategoria .",'".$nmproduto."',".$vlproduto.",'".$dsproduto."', 'assets/img/produtos/$urlImagem', $cdRest)";
         GetBanco()->query($sqlCadProd);
 
         $id = mysqli_insert_id(GetBanco());
@@ -279,7 +274,7 @@
         vl_produto = ".$vlproduto.",
         ds_produto = '".$dsproduto."',
         cd_restaurante = $cdRest,
-        url_imagem = '../assets/img/produtos/$urlImagem'
+        url_imagem = 'assets/img/produtos/$urlImagem'
         WHERE cd_produto = $id";
         GetBanco()->query($sqlCadProd);
 

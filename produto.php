@@ -10,8 +10,6 @@
             <div class="row no-gutters justify-content-center">
 
                 <div class="col-12 col-sm-8 col-md-5">
-
-         
                     <div class="barra-produto">
                         <div class="my-2 row no-gutters align-items-center">
                             <div class="col-11">
@@ -22,7 +20,6 @@
                             </div>
                         </div>
                     </div>
-          
                     <div class="my-2">
                         <div class="imgProd" data-img="<?php echo$rowInfo['url_imagem'];?>"></div>
                     </div>
@@ -38,7 +35,7 @@
                                 <p class="my-2"><strong>Itens Adicionais</strong></p>
                                 <div class="list-group">
                                     <?php
-                                    $slectItemAd = "SELECT * FROM complemento_produto WHERE cd_restaurante = 01";
+                                    $slectItemAd = "SELECT * FROM complemento_produto WHERE cd_restaurante = 01 AND cd_produto =".$_GET['produto']."";
                                     $resultItemAd = $conexao->query($slectItemAd);
                                     $linhasItemAd = $resultItemAd->num_rows; 
 
