@@ -1,6 +1,8 @@
 <?php include('inc/header.php');?>
     <?php include('inc/navbar.php');
     
+    error_reporting(-1);
+
     if(isset($_GET["action"]) && $_GET["action"] == "delete") {
 
         $catProd = "DELETE FROM produto WHERE cd_restaurante = $cdRest AND cd_produto = ".$_GET["id"];
@@ -158,16 +160,17 @@
                             ?>
                             <div class="mx-3">
                                 <div class="mx-1">
-                                    <h5 class="mb-2">Produtos Cadastrados</h5>
+                                    <h5 class="mb-2">Últimos Produtos Cadastrados</h5>
                                 </div>
                                 <?php while($rowmstPrd = $resultmostraProduto->fetch_assoc()) { ?>
-                                <div class="m-1">
+                                <div class="my-3">
                                     <ul class="list-group">
                                         <li class="list-group-item bg-light d-flex align-items-center justify-content-between">
                                             <strong class="h6 mb-0"><?php echo$rowmstPrd["nm_produto"]?> | R$ <?php echo$rowmstPrd["vl_produto"]?></strong> 
                                             <div class="btn-area">
                                                 <a href="cad-produto?id=<?php echo$rowmstPrd["cd_produto"]?>&action=delete" class="btn btn-danger" title="deletar"><i class="fa-solid fa-trash"></i></a>
                                                 <a href="cad-produto?id=<?php echo$rowmstPrd["cd_produto"]?>" class="btn btn-primary" title="editar"><i class="fa-solid fa-pencil"></i></a>
+                                                <a  class="btn btn-secondary"title="visualizar"><i class="fa-solid fa-magnifying-glass"></i></a>
                                             </div>
                                         </li>
                                     </ul>
@@ -230,15 +233,16 @@
         $dsproduto      = mysqli_real_escape_string($conexao, trim($_POST["descproduto"]));  
         $cdcategoria    = mysqli_real_escape_string($conexao, trim($_POST["cdcategoria"]));        
         $imagem         = $_FILES["imagemprod"];
-        $extensao       = explode('.', $imagem['full_path']);
+        $extensao       = explode('.', $imagem['name']);
         $extensao       = end($extensao);
         $urlImagem      = uniqid("").".$extensao";
         move_uploaded_file($imagem['tmp_name'], '../assets/img/produtos/'.$urlImagem);      
-
+        // criar campo no banco de dados pra receber  $urlImagem
 
         // insere dados na tabela produto
         $sqlCadProd = "INSERT INTO produto (cd_categoria,nm_produto,vl_produto,ds_produto, url_imagem, cd_restaurante)
         VALUES(".$cdcategoria .",'".$nmproduto."',".$vlproduto.",'".$dsproduto."', 'assets/img/produtos/$urlImagem', $cdRest)";
+        VALUES(".$cdcategoria .",'".$nmproduto."',".$vlproduto.",'".$dsproduto."', '/assets/img/produtos/$urlImagem', $cdRest)";
         GetBanco()->query($sqlCadProd);
 
         $id = mysqli_insert_id(GetBanco());
@@ -261,12 +265,12 @@
         $dsproduto      = mysqli_real_escape_string($conexao, trim($_POST["descproduto"]));  
         $cdcategoria    = mysqli_real_escape_string($conexao, trim($_POST["cdcategoria"]));        
         $imagem         = $_FILES["imagemprod"];
-        $extensao       = explode('.', $imagem['full_path']);
+        $extensao       = explode('.', $imagem['name']);
         $extensao       = end($extensao);
         $urlImagem      = uniqid("").".$extensao";
 
-        unlink($_POST['url_imagem']);
-        move_uploaded_file($imagem['tmp_name'], '../assets/img/produtos/'.$urlImagem);
+        //  unlink($_POST['url_imagem']);
+        move_uploaded_file($imagem['tmp_name'], __DIR__ . '/../assets/img/produtos/'.$urlImagem);
 
         $sqlCadProd = "UPDATE produto SET 
         cd_categoria = ".$cdcategoria .",
@@ -279,7 +283,7 @@
         GetBanco()->query($sqlCadProd);
 
         $listaExiste = "SELECT cd_itemad FROM prod_item WHERE cd_produto = ".$id;
-        $resultlistaExiste = $conexao->query($listaExiste);
+        $resultlistaExiste  = $conexao->query($listaExiste);
         $lista = $resultlistaExiste ->fetch_all();
 
         $novosItems = [];
